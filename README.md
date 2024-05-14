@@ -1,8 +1,8 @@
-# PerSense
+# ❄️PerSense
 Official Implementation of the paper "PerSense: Personalized Instance Segmentation in Dense Images" 🚩
-# News
+# 🔥News
 * We release the code for PerSense 🚀
-* We release a new dataset for Personalized Instance Segmentation in dense images, PerSense-D 🚀
+* We release a new dataset for Personalized Instance Segmentation in dense images, **PerSense-D**🚀
 # Introduction
 We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **Dense Images**. 
 
@@ -34,7 +34,7 @@ Clone the repo and create conda environment following the instructions given bel
     pip install -r requirements.txt
 
 ## Dataset
-Please download our PerSense-D dataset from here. Unzip the dataset and organize it as follows:
+Please download our **PerSense-D dataset** from here. Unzip the dataset and organize it as follows:
 
     data/
     |-- Images/
