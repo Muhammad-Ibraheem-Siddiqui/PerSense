@@ -79,7 +79,7 @@ Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/
 
 **Usage and License Notices**: The data, model and pretrained checkpoints are intended and licensed for research use only. They are also restricted to uses that follow the license agreement of LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
 
-#✒️ Citation
+# ✒️ Citation
 
 
 
