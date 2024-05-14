@@ -1,0 +1,11 @@
+opencv-python
+tqdm
+matplotlib
+timm
+numpy==1.20
+transformers==4.31.0
+einops
+supervision==0.18.0
+groundingdino-py
+sentencepiece==0.1.99
+accelerate
