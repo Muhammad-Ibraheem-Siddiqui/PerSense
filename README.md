@@ -19,7 +19,7 @@ We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **D
 
 ![main_fig_new](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/6dd1a7df-2991-4570-8a9b-5ab903b6266a)
 
-## Requirements
+## 🛠️ Requirements
 
 ### Installation
 Similar to SAM and PerSAM, our code requires pytorch>=1.7 and torchvision>=0.8. For compatibility check [here](https://pytorch.org/get-started/locally/).
@@ -42,7 +42,7 @@ Please download our **PerSense-D dataset** from here. Unzip the dataset and orga
     data/
     |-- Images/
 
-### Model Weights
+### 🔩 Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
 Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
