@@ -53,7 +53,7 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
     DSALVANet/checkpoints
     checkpoint_200.pth
 
-## Getting Started
+## 🏃‍♂️ Getting Started
 
 #### PerSense
 To evaluate PerSense, just run the following command: 
