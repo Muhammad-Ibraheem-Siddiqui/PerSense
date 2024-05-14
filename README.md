@@ -3,7 +3,7 @@ Official Implementation of the paper **"PerSense: Personalized Instance Segmenta
 # 🔥News
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized Instance Segmentation in dense images, **PerSense-D**🚀
-# Introduction
+# 🌟Highlight
 We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **Dense Images**. 
 
 👑 **End-to-End**  
