@@ -1,12 +1,12 @@
-# ❄️ PerSense
+## ❄️ PerSense
 Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩
 
   ![intro_fig_latest](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/690a2aec-e677-4805-a8d7-3333e0f5f228)
 
-# 🔥 News
+## 🔥 News
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized Instance Segmentation in dense images, **PerSense-D**🚀
-# 🌟Highlight
+## 🌟Highlight
 We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **Dense Images**. 
 
 👑 **End-to-End**  
@@ -19,9 +19,9 @@ We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **D
 
 ![main_fig_new](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/6dd1a7df-2991-4570-8a9b-5ab903b6266a)
 
-# Requirements
+## Requirements
 
-## Installation
+### Installation
 Similar to SAM and PerSAM, our code requires pytorch>=1.7 and torchvision>=0.8. For compatibility check [here](https://pytorch.org/get-started/locally/).
 Clone the repo and create conda environment following the instructions given below:
 
@@ -36,13 +36,13 @@ Clone the repo and create conda environment following the instructions given bel
 
     pip install -r requirements.txt
 
-## Dataset
+### Dataset
 Please download our **PerSense-D dataset** from here. Unzip the dataset and organize it as follows:
 
     data/
     |-- Images/
 
-## Model Weights
+### Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
 Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
@@ -53,33 +53,33 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
     DSALVANet/checkpoints
     checkpoint_200.pth
 
-# Getting Started
+## Getting Started
 
-### PerSense
+#### PerSense
 To evaluate PerSense, just run the following command: 
 
     python persense.py --visualize True or False
 
-### Baseline
+#### Baseline
 To evaluate baseline, just run the following command:
 
     python baseline.py --visualize True or False
 
-### Evaluate mIoU
+#### Evaluate mIoU
 To evaluate mIoU, just run the following command:
 
     python eval_miou.py --pred_path PerSense or baseline
 
-# ❤️ Acknowledgement 
+## ❤️ Acknowledgement 
 Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/tree/main?tab=readme-ov-file), [Grounded-SAM](https://github.com/IDEA-Research/Grounded-Segment-Anything), [DSALVANet](https://github.com/kadvinj/DSALVANet?tab=readme-ov-file) and [ViPLLaVA](https://github.com/WisconsinAIVision/ViP-LLaVA/tree/main). Thanks for their great work.
 
-# License
+## License
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/LICENSE)
 [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)  
 
 **Usage and License Notices**: The data, model and pretrained checkpoints are intended and licensed for research use only. They are also restricted to uses that follow the license agreement of LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
 
-# ✒️ Citation
+## ✒️ Citation
 
 
 
