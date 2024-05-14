@@ -4,7 +4,13 @@ Official Implementation of the paper "PerSense: Personalized Instance Segmentati
 * We release the code for PerSense 🚀
 * We release a new dataset for Personalized Instance Segmentation in dense images, PerSense-D 🚀
 # Introduction
-We introduce **PerSense** 🚀, an **end-to-end** **training-free** 💥 and **model-agnostic** 💥 framework for **one-shot personalized instance segmentation** in **dense images**. 
+We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **Dense Images**. 
+
+👑 **End-to-End**  
+❄️ **Training-free**  
+💡 **Model-agnostic**  
+💣 **One-shot Framework**  
+
 
 
 
