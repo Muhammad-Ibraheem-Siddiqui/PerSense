@@ -1,5 +1,9 @@
 # ❄️PerSense
-Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩
+Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩  
+
+
+  ![intro_fig_latest](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/690a2aec-e677-4805-a8d7-3333e0f5f228)
+
 # 🔥News
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized Instance Segmentation in dense images, **PerSense-D**🚀
