@@ -74,7 +74,6 @@ To evaluate mIoU, just run the following command:
     python eval_miou.py --pred_path PerSense or groundedsam
 
 ## 👀 How it Looks?
-![github image](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/0bfbdd6c-5c68-4400-a2a6-91f5cb794477)
 
 
 ## ❤️ Acknowledgement 
