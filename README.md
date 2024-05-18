@@ -44,7 +44,7 @@ Please download our **PerSense-D dataset** from here. Unzip the dataset and orga
 
 ### 🔩 Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
-Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
+Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link) and wights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
     data/
     |-- Images/
@@ -53,6 +53,9 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
     DSALVANet/checkpoints
     checkpoint_200.pth
 
+    GroundingDINO/weights
+    groundingdino_swint_ogc.pth
+
 ## 🏃‍♂️ Getting Started
 
 #### PerSense
@@ -60,15 +63,15 @@ To evaluate PerSense, just run the following command:
 
     python persense.py --visualize True or False
 
-#### Baseline
-To evaluate baseline, just run the following command:
+#### Grounded-SAM
+To evaluate Grounded-SAM in our scenario, just run the following command:
 
-    python baseline.py --visualize True or False
+    python groundedsam.py --visualize True or False
 
 #### Evaluate mIoU
 To evaluate mIoU, just run the following command:
 
-    python eval_miou.py --pred_path PerSense or baseline
+    python eval_miou.py --pred_path PerSense or groundedsam
 
 ## ❤️ Acknowledgement 
 Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/tree/main?tab=readme-ov-file), [Grounded-SAM](https://github.com/IDEA-Research/Grounded-Segment-Anything), [DSALVANet](https://github.com/kadvinj/DSALVANet?tab=readme-ov-file) and [ViPLLaVA](https://github.com/WisconsinAIVision/ViP-LLaVA/tree/main). Thanks for their great work.
