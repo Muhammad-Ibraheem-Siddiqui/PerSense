@@ -2,10 +2,11 @@ opencv-python
 tqdm
 matplotlib
 timm
-numpy==1.20
+numpy==1.21.2
 transformers==4.31.0
 einops
-supervision==0.18.0
-groundingdino-py
+supervision
 sentencepiece==0.1.99
 accelerate
+groundingdino-py
+git+https://github.com/facebookresearch/segment-anything.git
