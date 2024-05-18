@@ -11,7 +11,7 @@ def get_arguments():
     
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--pred_path', type=str, default='PerSense') #'baseline' for evaluating baseline results and 'PerSense' for evaluating persense
+    parser.add_argument('--pred_path', type=str, default='PerSense') #'groundedsam'  or 'PerSense' for evaluating persense
     parser.add_argument('--gt_path', type=str, default='./data/Images')
 
     parser.add_argument('--ref_idx', type=str, default='00')

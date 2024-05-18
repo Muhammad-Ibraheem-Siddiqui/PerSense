@@ -36,7 +36,7 @@ def get_arguments():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--data', type=str, default='./data')
-    parser.add_argument('--outdir', type=str, default='baseline')
+    parser.add_argument('--outdir', type=str, default='groundedsam')
     parser.add_argument('--ckpt', type=str, default='./sam_vit_h_4b8939.pth')
     parser.add_argument('--sam_type', type=str, default='vit_h')
     parser.add_argument('--ref_idx', type=str, default='00')
