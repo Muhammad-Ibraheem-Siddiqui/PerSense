@@ -44,7 +44,7 @@ Please download our **PerSense-D dataset** from here. Unzip the dataset and orga
 
 ### 🔩 Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
-Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
+Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link) and wights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
     data/
     |-- Images/
@@ -52,6 +52,9 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
 
     DSALVANet/checkpoints
     checkpoint_200.pth
+
+    GroundingDINO/weights
+    groundingdino_swint_ogc.pth
 
 ## 🏃‍♂️ Getting Started
 
