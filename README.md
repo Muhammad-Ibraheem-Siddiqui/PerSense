@@ -5,7 +5,7 @@ Official Implementation of the paper **"PerSense: Personalized Instance Segmenta
 
 ## 🔥 News
 * We release the code for **PerSense** 🚀
-* We release a new dataset for Personalized Instance Segmentation in dense images, **PerSense-D**🚀
+* We release a new dataset for Personalized one-shot Segmentation in Dense Images, **PerSense-D**🚀
 ## 🌟 Highlight
 We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **Dense Images**. 
 
@@ -37,14 +37,14 @@ Clone the repo and create conda environment following the instructions given bel
     pip install -r requirements.txt
 
 ### Dataset
-Please download our **PerSense-D dataset** from here. Unzip the dataset and organize it as follows:
+Please download our **PerSense-D dataset** from [here](https://drive.google.com/file/d/1rpPCPYz0lGUs_DEJ2-ZllNyHvhvibhtr/view?usp=drive_link). Unzip the dataset and organize it as follows:
 
     data/
     |-- Images/
 
 ### 🔩 Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
-Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link) and wights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
+Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
     data/
     |-- Images/
@@ -61,12 +61,12 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
 #### PerSense
 To evaluate PerSense, just run the following command: 
 
-    python persense.py --visualize True or False
+    python persense.py (add argument '--visualize True' for visualizing the mask overlaid on original image)
 
 #### Grounded-SAM
 To evaluate Grounded-SAM in our scenario, just run the following command:
 
-    python groundedsam.py --visualize True or False
+    python groundedsam.py (add argument '--visualize True' for visualizing the mask overlaid on original image)
 
 #### Evaluate mIoU
 To evaluate mIoU, just run the following command:
