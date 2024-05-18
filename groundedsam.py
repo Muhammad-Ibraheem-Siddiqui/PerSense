@@ -9,10 +9,9 @@ from tqdm import tqdm
 import argparse
 import matplotlib.pyplot as plt
 import warnings
-# warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore')
 
 from show import *
-from per_segment_anything import sam_model_registry, SamPredictor
 
 from ViPLLaVA.llava.model.builder import load_pretrained_model
 from ViPLLaVA.llava.mm_utils import get_model_name_from_path
@@ -24,7 +23,7 @@ from torchvision import transforms
 from GroundingDINO.groundingdino.util.inference import Model
 from typing import List
 import supervision as sv
-from segment_anything import SamPredictor
+from segment_anything import sam_model_registry, SamPredictor
 import gc
 import time
 
