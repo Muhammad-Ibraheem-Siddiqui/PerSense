@@ -73,6 +73,10 @@ To evaluate mIoU, just run the following command:
 
     python eval_miou.py --pred_path PerSense or groundedsam
 
+## 👀 How it Looks?
+![github image](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/0bfbdd6c-5c68-4400-a2a6-91f5cb794477)
+
+
 ## ❤️ Acknowledgement 
 Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/tree/main?tab=readme-ov-file), [Grounded-SAM](https://github.com/IDEA-Research/Grounded-Segment-Anything), [DSALVANet](https://github.com/kadvinj/DSALVANet?tab=readme-ov-file) and [ViPLLaVA](https://github.com/WisconsinAIVision/ViP-LLaVA/tree/main). Thanks for their great work.
 
