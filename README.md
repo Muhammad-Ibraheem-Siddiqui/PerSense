@@ -15,9 +15,8 @@ We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **D
 🎯 **One-shot Framework**  
 
 
+![main_fig_new](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/64f1141a-e0b2-4171-ab1c-cc4b8f6b1d07)
 
-
-![main_fig_new](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/6dd1a7df-2991-4570-8a9b-5ab903b6266a)
 
 ## 🛠️ Requirements
 
@@ -46,14 +45,13 @@ Please download our **PerSense-D dataset** from [here](https://drive.google.com/
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
 Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
-    data/
-    |-- Images/
+    data/Images/
     sam_vit_h_4b8939.pth
 
-    DSALVANet/checkpoints
+    DSALVANet/checkpoints/
     checkpoint_200.pth
 
-    GroundingDINO/weights
+    GroundingDINO/weights/
     groundingdino_swint_ogc.pth
 
 ## 🏃‍♂️ Getting Started
@@ -73,7 +71,11 @@ To evaluate mIoU, just run the following command:
 
     python eval_miou.py --pred_path PerSense or groundedsam
 
-## 👀 How it Looks?
+## 👀 How the Output Looks?
+
+![2](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/e3bdb921-0807-4cf3-a7bf-c5360dd34a27)
+
+
 
 
 ## ❤️ Acknowledgement 
