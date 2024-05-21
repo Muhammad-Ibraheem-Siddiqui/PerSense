@@ -36,14 +36,14 @@ Clone the repo and create conda environment following the instructions given bel
     pip install -r requirements.txt
 
 ### Dataset
-Please download our **PerSense-D dataset** from [here](https://drive.google.com/file/d/1ku_tY3VflD-K9-xeSocgQjcd2C6oj29g/view?usp=drive_link). Unzip the dataset and organize it as follows:
+Please download our **PerSense-D dataset** from [here](https://drive.google.com/file/d/1ku_tY3VflD-K9-xeSocgQjcd2C6oj29g/view?usp=sharing). Unzip the dataset and organize it as follows:
 
     data/
     |-- Images/
 
 ### 🔩 Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
-Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=drive_link) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=drive_link). For ViPLLaVA (VLM) weights are automatically fetched through the code.
+Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=sharing) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=sharing). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
     data/Images/
     sam_vit_h_4b8939.pth
@@ -86,8 +86,6 @@ Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/
 [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)  
 
 **Usage and License Notices**: The data, model and pretrained checkpoints are intended and licensed for research use only. They are also restricted to uses that follow the license agreement of LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
-
-## ✒️ Citation
 
 
 
