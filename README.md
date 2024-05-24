@@ -1,11 +1,15 @@
-## ❄️ PerSense
+## ❄️ PerSense Overview
 Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩
+
+### Abstract
+Leveraging large-scale pre-training, vision foundational models showcase notable performance benefits. While recent years have witnessed significant advancements in segmentation algorithms, existing models still face challenges to automatically segment personalized instances in dense and crowded scenarios. The primary factor behind this limitation stems from bounding box-based detections, which are constrained by occlusions, background clutter, and object orientation, particularly when dealing with dense images. To this end, we propose \textbf{PerSense}, an end-to-end, training-free, and model-agnostic one-shot framework to address the Personalized instance Segmentation in dense images. Towards developing this framework, we make following core contributions. (a) We propose an Instance Detection Module (IDM) and leverage a Vision-Language Model, a grounding object detector, and a few-shot object counter (FSOC) to realize a new baseline. (b) To tackle false positives within candidate point prompts, we design Point Prompt Selection Module (PPSM). Both IDM and PPSM transform density maps from FSOC into personalized instance-level point prompts for segmentation and offer a seamless integration in our model-agnostic framework. (c) We introduce a feedback mechanism which enables PerSense to harness the full potential of FSOC by automating the exemplar selection process. (d) To promote algorithmic advances and effective tools for this relatively underexplored task, we introduce PerSense-D, a dataset exclusive to personalized instance segmentation in dense images. We validate the effectiveness of PerSense on the task of personalized instance segmentation in dense images on PerSense-D and comparison with SOTA. Additionally, our qualitative findings demonstrate the adaptability of our framework to images captured in-the-wild.
 
   ![intro_fig_latest](https://github.com/Muhammad-Ibraheem-Siddiqui/PerSense/assets/142812051/690a2aec-e677-4805-a8d7-3333e0f5f228)
 
 ## 🔥 News
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized one-shot Segmentation in Dense Images, **PerSense-D**🚀
+* PerSense paper is released [arXiv Link](https://arxiv.org/abs/2405.13518)
 ## 🌟 Highlight
 We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **Dense Images**. 
 
