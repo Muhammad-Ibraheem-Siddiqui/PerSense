@@ -33,9 +33,9 @@ Clone the repo and create conda environment following the instructions given bel
 
     conda create -n persense python=3.8
     conda activate persense
-
-    conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia 
-    (Change it as per your platform following the link given above)
+    
+    conda install pytorch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 pytorch-cuda=12.1 -c pytorch -c nvidia
+    (You can also change it as per your platform following the link given above)
 
     pip install -r requirements.txt
 
@@ -49,7 +49,7 @@ Please download our **PerSense-D dataset** from [here](https://drive.google.com/
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
 Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=sharing) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=sharing). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
-    data/Images/
+    data/
     sam_vit_h_4b8939.pth
 
     DSALVANet/checkpoints/
