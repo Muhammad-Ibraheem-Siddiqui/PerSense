@@ -453,8 +453,11 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
             output = counter_model(query,supports)
 
             vis_output, pt_priors, count = IDM(src_img,ori_boxes,output, test_idx)
+            pt_priors_all = pt_priors
 
             pt_priors = point_prompt_select(sim, pt_priors, count, detections2) # to compare possible points with similrity map for filtering the accurate ones
+            if not pt_priors:
+                pt_priors = pt_priors_all
 
             # pt_priors = pt_priors.cpu().detach().numpy().astype(np.int64)
             # set_path = './outputs/' + 'counter_output'
