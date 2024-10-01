@@ -17,6 +17,7 @@ from per_segment_anything import sam_model_registry, SamPredictor
 from DSALVANet.utils.PerSense_modules import IDM
 from DSALVANet.utils.data_preprocess import preprocess
 from DSALVANet.utils.model_helper import build_model
+from DSALVANet.utils.PerSense_countr import IDM_countr
 
 from ViPLLaVA.llava.model.builder import load_pretrained_model
 from ViPLLaVA.llava.mm_utils import get_model_name_from_path
@@ -30,6 +31,8 @@ from typing import List
 import supervision as sv
 import gc
 import time
+from CounTR import models_mae_cross
+from CounTR.demo import load_image, run_one_image
 
 
 
@@ -43,6 +46,7 @@ def get_arguments():
     parser.add_argument('--sam_type', type=str, default='vit_h')
     parser.add_argument('--ref_idx', type=str, default='00')
     parser.add_argument('--visualize', type=bool, default= False) # Change to True for visualization
+    parser.add_argument('--fsoc', type=str, default='DSALVANet') #use countr for COUNTR BMVC 22
 
     
     args = parser.parse_args()
@@ -84,14 +88,28 @@ def main():
     print("======> Done" )
 
     print("======> Load Object Counter" )
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    parser_input = argparse.ArgumentParser(description="Test code of DSALVANet")
-    parser_input.add_argument("-w", "--weight", type=str, default="./DSALVANet/checkpoints/checkpoint_200.pth", help="Path of weight.")
-    parser_input.add_argument('--visualize', type=bool, default= False)
+    if args.fsoc == 'countr':
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model_countr = models_mae_cross.__dict__['mae_vit_base_patch16'](norm_pix_loss='store_true')
+        model_countr.to(device)
+        model_without_ddp = model_countr
 
-    args_counter = parser_input.parse_args()
-    weight_path = args_counter.weight
-    counter_model = build_model(weight_path,device)
+        checkpoint = torch.load('./CounTR/output_allnew_dir/FSC147.pth', map_location='cpu')
+        model_without_ddp.load_state_dict(checkpoint['model'], strict=False)
+        
+
+        model_countr.eval()
+        counter_model = model_countr
+    elif args.fsoc == 'DSALVANet':
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        parser_input = argparse.ArgumentParser(description="Test code of DSALVANet")
+        parser_input.add_argument("-w", "--weight", type=str, default="./DSALVANet/checkpoints/checkpoint_200.pth", help="Path of weight.")
+        parser_input.add_argument('--visualize', type=bool, default= False)
+        parser_input.add_argument('--fsoc', type=str, default='DSALVANet') #use countr for COUNTR BMVC 22
+
+        args_counter = parser_input.parse_args()
+        weight_path = args_counter.weight
+        counter_model = build_model(weight_path,device)
     print("======> Done" )
 
     images_path = args.data + '/Images/'
@@ -270,22 +288,6 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
             text_threshold=TEXT_TRESHOLD
         )
 
-        # vis_sim = sim.squeeze(0)
-        # # vis_sim = vis_sim.permute(1, 2, 0)
-        # vis_sim = vis_sim.cpu().detach().numpy()
-        # fig = plt.figure(figsize=(10, 10))
-        # plt.axis('off')
-        # plt.imshow(vis_sim)
-
-        # sim_path = './outputs/' + 'sim_map'
-        # if not os.path.exists(sim_path):
-        #     os.mkdir('./outputs/sim_map')
-        # sim_output_path = os.path.join(sim_path, '' f'{test_idx}.png')
-        # with open(sim_output_path, 'wb') as outfile:
-        #     fig.savefig(outfile, format='png')
-        # plt.close(fig)
-        # cv2.imwrite(sim_output_path,vis_sim*255)
-
 
         # First-step prediction
         masks, scores, logits, _ = predictor.predict(
@@ -335,6 +337,7 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
         parser.add_argument("-i", "--img", type=str, default= test_image_path, help="Path of query image.")
         parser.add_argument("-b", "--boxes", type=str, default="./DSALVANet/test_data/bbox.txt", help="Path of bbox coord txt file ")
         parser.add_argument('--visualize', type=bool, default= False)
+        parser.add_argument('--fsoc', type=str, default='DSALVANet') #use countr for COUNTR BMVC 22
 
         if __name__ == '__main__':
             args_dsalva = parser.parse_args()
@@ -347,9 +350,21 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
                     ori_boxes.append(list(map(int,data[0:4])))
             src_img = cv2.imread(img_path)
             query, supports = preprocess(src_img, ori_boxes,device)
-            output = counter_model(query,supports)
+            
 
-            vis_output, pt_priors, count = IDM(src_img,ori_boxes,output, test_idx)
+            if args.fsoc == 'countr':
+
+                # Test on the new image
+                samples, boxes,ori_boxes, pos, W, H, new_W, new_H = load_image(test_image_path)
+                samples = samples.unsqueeze(0).to(device, non_blocking=True)
+                boxes = boxes.unsqueeze(0).to(device, non_blocking=True)
+
+                result, elapsed_time, density_pred = run_one_image(samples, boxes, pos, counter_model, W, H, test_idx, new_W, new_H)
+                vis_output, pt_priors, count = IDM_countr(src_img, ori_boxes, result, test_idx, density_pred)
+            elif args.fsoc == 'DSALVANet':
+                output = counter_model(query,supports)
+                vis_output, pt_priors, count = IDM(src_img,ori_boxes,output, test_idx)
+
             max_conf_pt = topk_xy[0] # including the max conf point in the prompt list
             pt_priors = point_prompt_select(sim, pt_priors, count, detections2) # to compare possible points with similrity map for filtering the accurate ones
 
@@ -426,17 +441,12 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
             lines = file.readlines()
 
         # Keep only the first n lines
-        first_n_lines = lines[:5]
+        first_n_lines = lines[:4]
 
         # Write the first six lines into the text file, overwriting its contents
         with open('./DSALVANet/test_data/bbox.txt', 'w') as file:
             file.writelines(first_n_lines)
 
-
-        parser = argparse.ArgumentParser(description="Test code of DSALVANet")
-        parser.add_argument("-i", "--img", type=str, default= test_image_path, help="Path of query image.")
-        parser.add_argument("-b", "--boxes", type=str, default="./DSALVANet/test_data/bbox.txt", help="Path of bbox coord txt file ")
-        parser.add_argument('--visualize', type=bool, default= False)
 
         if __name__ == '__main__':
             args_dsalva = parser.parse_args()
@@ -450,14 +460,27 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
             src_img = cv2.imread(img_path)
             query, supports = preprocess(src_img, ori_boxes,device)
             # model = build_model(weight_path,device)
-            output = counter_model(query,supports)
+            
 
-            vis_output, pt_priors, count = IDM(src_img,ori_boxes,output, test_idx)
+            if args.fsoc == 'countr':
+
+                # Test on the new image
+                samples, boxes,ori_boxes, pos, W, H, new_W, new_H = load_image(test_image_path)
+                samples = samples.unsqueeze(0).to(device, non_blocking=True)
+                boxes = boxes.unsqueeze(0).to(device, non_blocking=True)
+
+                result, elapsed_time, density_pred = run_one_image(samples, boxes, pos, counter_model, W, H, test_idx, new_W, new_H)
+                vis_output, pt_priors, count = IDM_countr(src_img, ori_boxes, result, test_idx, density_pred)
+            elif args.fsoc == 'DSALVANet':
+                output = counter_model(query,supports)
+                vis_output, pt_priors, count = IDM(src_img,ori_boxes,output, test_idx)
+
             pt_priors_all = pt_priors
 
             pt_priors = point_prompt_select(sim, pt_priors, count, detections2) # to compare possible points with similrity map for filtering the accurate ones
             if not pt_priors:
                 pt_priors = pt_priors_all
+
 
             # pt_priors = pt_priors.cpu().detach().numpy().astype(np.int64)
             # set_path = './outputs/' + 'counter_output'
