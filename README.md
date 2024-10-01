@@ -65,6 +65,10 @@ To evaluate PerSense, just run the following command:
 
     python persense.py (add argument '--visualize True' for visualizing the mask overlaid on original image)
 
+To evaluate PerSense on CounTR, just run the following command: 
+
+    python persense.py --fsoc countr (add argument --visualize True for visualizing masks overlaid on original image)
+
 #### Grounded-SAM
 To evaluate Grounded-SAM in our scenario, just run the following command:
 
