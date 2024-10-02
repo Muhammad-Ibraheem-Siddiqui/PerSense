@@ -2,8 +2,7 @@
 Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩
 
 ### Abstract
-Leveraging large-scale pre-training, vision foundational models have shown significant performance benefits. However, existing segmentation algorithms struggle with personalized instance segmentation in dense and crowded scenarios, mainly due to limitations of bounding box-based detections in handling occlusions, background clutter, and object orientation. To address this, we propose **PerSense**, an end-to-end, training-free, and model-agnostic one-shot framework for **Per**sonalized instance **S**egmentation in d**ense** images. Towards developing this framework, we make the following core contributions: (a) We propose an Instance Detection Module (IDM) and leverage a class-label extractor (CLE), a grounding object detector, and a density map generator (DMG) to realize a new baseline capable of generating instance-level point prompts. (b) To mitigate false positives within candidate point prompts, we design Point Prompt Selection Module (PPSM). Both IDM and PPSM transform density maps from DMG into personalized precise point prompts for instance-level segmentation and offer a seamless integration in our model-agnostic framework. (c) We introduce a feedback mechanism which enables PerSense to harness the full potential of DMG by automating the exemplar selection process. (d) To promote algorithmic advances and effective tools for this relatively underexplored task, we introduce PerSense-D, a dataset exclusive to personalized instance segmentation in dense images. Our extensive experiments establish PerSense's superiority in dense scenarios by achieving an mIoU of **71.61%** on PerSense-D, outperforming recent SOTA models by significant margins of **+47.16%**, **+42.27%**, **+8.83%**, and **+5.69%**. Additionally, our qualitative findings demonstrate the adaptability of our framework to images captured in-the-wild.
-
+Leveraging large-scale pre-training, vision foundational models showcase notable performance benefits. Recent segmentation algorithms for natural scenes have advanced significantly. However, existing models still struggle to automatically segment personalized instances in dense and crowded scenarios, where severe occlusions, scale variations, and background clutter pose a challenge to accurately delineate densely packed instances of the target object. To address this, we propose **PerSense**, an end-to-end, training-free, and model-agnostic one-shot framework for **Per**sonalized instance **S**egmentation in d**ense** images. Towards developing this framework, we make the following core contributions. (a) We develop a new baseline capable of automatically generating instance-level point prompts via proposing a novel Instance Detection Module (IDM) that leverages density maps, encapsulating spatial distribution of objects in an image. (b) To mitigate false positives within generated point prompts, we design Point Prompt Selection Module (PPSM). Both IDM and PPSM transform density maps into personalized precise point prompts for instance-level segmentation and offer a seamless integration in our model-agnostic framework. (c) We introduce a feedback mechanism which enables PerSense to improve the accuracy of density maps by automating the exemplar selection process for density map generation.(d) To promote algorithmic advances and effective tools for this relatively underexplored task, we introduce PerSense-D, a diverse dataset exclusive to personalized instance segmentation in dense images. Our extensive experiments establish PerSense superiority in dense scenarios by achieving an mIoU of **71.61%** on PerSense-D, outperforming recent SOTA models by significant margins of **+47.16%**, **+42.27%**, **+8.83%**, and **+5.69%**. Additionally, our qualitative findings demonstrate the adaptability of our framework to images captured in-the-wild.
 
 ![intro_fig_arxiv](https://github.com/user-attachments/assets/ece19aeb-5be6-462e-b011-29d33ddc6951)
 
@@ -47,7 +46,7 @@ Please download our **PerSense-D dataset** from [here](https://drive.google.com/
 
 ### 🔩 Model Weights
 Please download pretrained weights of SAM from [here](https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth).
-Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=sharing) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=sharing). For ViPLLaVA (VLM) weights are automatically fetched through the code.
+Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://drive.google.com/file/d/1julzH9MJSK1xTGchb1r0CXdZ2wzF5-Kp/view?usp=sharing) and weights for GroungdingDINO from [here](https://drive.google.com/file/d/13rV6dzRwWCVZYWpnmiaVwRDIDC28d82g/view?usp=sharing). Download weights for CounTR pretrained on FSC-147 dataset from [here](https://drive.google.com/file/d/1CzYyiYqLshMdqJ9ZPFJyIzXBa7uFUIYZ/view?pli=1). For ViPLLaVA (VLM) weights are automatically fetched through the code.
 
     data/
     sam_vit_h_4b8939.pth
@@ -58,10 +57,13 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
     GroundingDINO/weights/
     groundingdino_swint_ogc.pth
 
+    CounTR/output_allnew_dir/
+    FSC147.pth
+
 ## 🏃‍♂️ Getting Started
 
 #### PerSense
-To evaluate PerSense, just run the following command: 
+To evaluate PerSense on DSALVANet, just run the following command: 
 
     python persense.py (add argument '--visualize True' for visualizing the mask overlaid on original image)
 
