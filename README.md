@@ -18,7 +18,8 @@ We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **D
 💡 **Model-agnostic**  
 🎯 **One-shot Framework**  
 
-![Updated_Main Fig](https://github.com/user-attachments/assets/025c2927-971b-47cf-a957-46579694dd55)
+![Updated_Main Fig](https://github.com/user-attachments/assets/2452b2c2-dc67-4561-8f75-4a41b6278233)
+
 
 
 ## 🛠️ Requirements
