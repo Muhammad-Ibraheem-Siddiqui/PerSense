@@ -2,7 +2,7 @@
 Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩
 
 ### Abstract
-Leveraging large-scale pre-training, vision foundational models showcase notable performance benefits. Recent segmentation algorithms for natural scenes have advanced significantly. However, existing models still struggle to automatically segment personalized instances in dense and crowded scenarios, where severe occlusions, scale variations, and background clutter pose a challenge to accurately delineate densely packed instances of the target object. To address this, we propose **PerSense**, an end-to-end, training-free, and model-agnostic one-shot framework for **Per**sonalized instance **S**egmentation in d**ense** images. Towards developing this framework, we make the following core contributions. (a) We develop a new baseline capable of automatically generating instance-level point prompts via proposing a novel Instance Detection Module (IDM) that leverages density maps, encapsulating spatial distribution of objects in an image. (b) To mitigate false positives within generated point prompts, we design Point Prompt Selection Module (PPSM). Both IDM and PPSM transform density maps into personalized precise point prompts for instance-level segmentation and offer a seamless integration in our model-agnostic framework. (c) We introduce a feedback mechanism which enables PerSense to improve the accuracy of density maps by automating the exemplar selection process for density map generation.(d) To promote algorithmic advances and effective tools for this relatively underexplored task, we introduce PerSense-D, a diverse dataset exclusive to personalized instance segmentation in dense images. Our extensive experiments establish PerSense superiority in dense scenarios by achieving an mIoU of **71.61%** on PerSense-D, outperforming recent SOTA models by significant margins of **+47.16%**, **+42.27%**, **+8.83%**, and **+5.69%**. Additionally, our qualitative findings demonstrate the adaptability of our framework to images captured in-the-wild.
+The emergence of foundational models has significantly advanced segmentation approaches. However, existing models still face challenges in automatically segmenting personalized instances in dense scenarios, where severe occlusions, scale variations, and background clutter hinder precise instance delineation. To address this, we propose PerSense, an end-to-end, training-free, and model-agnostic one-shot framework for personalized instance segmentation in dense images. We start with developing a new baseline capable of automatically generating instance-level point prompts via proposing a novel Instance Detection Module (IDM) that leverages density maps, encapsulating spatial distribution of objects in an image. To reduce false positives, we design the Point Prompt Selection Module (PPSM), which refines the output of IDM based on an adaptive threshold. Both IDM and PPSM seamlessly integrate into our model-agnostic framework. Furthermore, we introduce a feedback mechanism which enables PerSense to improve the accuracy of density maps by automating the exemplar selection process for density map generation. Finally, to promote algorithmic advances and effective tools for this relatively underexplored task, we introduce PerSense-D, an evaluation benchmark exclusive to personalized instance segmentation in dense images. Our extensive experiments establish PerSense superiority in dense scenarios compared to SOTA approaches. Additionally, our qualitative findings demonstrate the adaptability of our framework to images captured in-the-wild.
 
 ![intro_fig_arxiv](https://github.com/user-attachments/assets/ece19aeb-5be6-462e-b011-29d33ddc6951)
 
@@ -18,7 +18,8 @@ We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **D
 💡 **Model-agnostic**  
 🎯 **One-shot Framework**  
 
-![Updated_Main Fig](https://github.com/user-attachments/assets/2452b2c2-dc67-4561-8f75-4a41b6278233)
+![Updated_Main_Fig3](https://github.com/user-attachments/assets/68fa7f49-9c5a-47a5-9eb9-004dbff01137)
+
 
 
 
@@ -92,7 +93,7 @@ To evaluate mIoU, just run the following command:
 
     python eval_miou.py --pred_path PerSense or groundedsam or Matcher or persam
 
-## 👀 How the Output Looks?
+## 👀 How it Looks?
 
 ![Qualitative results_arxiv](https://github.com/user-attachments/assets/371689b0-c9b8-4fc1-af3a-ba9ea6c81f1c)
 
