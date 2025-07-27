@@ -57,7 +57,7 @@ def test(matcher, obj_name, output_path, images_path, masks_path, args):
     gt_mask = torch.tensor(ref_mask)[:, :, 0] > 0 
     gt_mask = gt_mask.float().unsqueeze(0).flatten(1).cuda()
 
-    loop_over = len(os.listdir(test_images_path))
+    loop_over = len(os.listdir(test_images_path)) - 2
     for test_idx in tqdm(range(loop_over//2)):
 
         # ref_image = cv2.imread("/l/users/muhammad.siddiqui/Matcher/datasets/Lemons/00.jpg")
