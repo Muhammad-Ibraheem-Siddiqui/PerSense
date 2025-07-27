@@ -1,12 +1,13 @@
-## ❄️ PerSense Overview
-Official Implementation of the paper **"PerSense: Personalized Instance Segmentation in Dense Images"** 🚩
+## **PerSense: Personalized Instance Segmentation in Dense Images** [BMVC 2025 🔥]
 
 ### Abstract
-The emergence of foundational models has significantly advanced segmentation approaches. However, existing models still face challenges in automatically segmenting personalized instances in dense scenarios, where severe occlusions, scale variations, and background clutter hinder precise instance delineation. To address this, we propose PerSense, an end-to-end, training-free, and model-agnostic one-shot framework for personalized instance segmentation in dense images. We start with developing a new baseline capable of automatically generating instance-level point prompts via proposing a novel Instance Detection Module (IDM) that leverages density maps, encapsulating spatial distribution of objects in an image. To reduce false positives, we design the Point Prompt Selection Module (PPSM), which refines the output of IDM based on an adaptive threshold. Both IDM and PPSM seamlessly integrate into our model-agnostic framework. Furthermore, we introduce a feedback mechanism which enables PerSense to improve the accuracy of density maps by automating the exemplar selection process for density map generation. Finally, to promote algorithmic advances and effective tools for this relatively underexplored task, we introduce PerSense-D, an evaluation benchmark exclusive to personalized instance segmentation in dense images. Our extensive experiments establish PerSense superiority in dense scenarios compared to SOTA approaches. Additionally, our qualitative findings demonstrate the adaptability of our framework to images captured in-the-wild.
+The emergence of foundational models has significantly advanced segmentation approaches. However, challenges still remain in dense scenarios, where occlusions, scale variations, and clutter impede precise instance delineation. To address this, we propose **PerSense**, an end-to-end, training-free, and model-agnostic one-shot framework for **Per**sonalized instance **S**egmentation in d**ense** images. We start with developing a new baseline capable of automatically generating instance-level point prompts via proposing a novel Instance Detection Module (IDM) that leverages density maps (DMs), encapsulating spatial distribution of objects in an image. To reduce false positives, we design the Point Prompt Selection Module (PPSM), which refines the output of IDM based on an adaptive threshold. Both IDM and PPSM seamlessly integrate into our model-agnostic framework. Furthermore, we introduce a feedback mechanism that enables PerSense to improve the accuracy of DMs by automating the exemplar selection process for DM generation. Finally, to advance research in this relatively underexplored area, we introduce PerSense-D, an evaluation benchmark for instance segmentation in dense images. Our extensive experiments establish PerSense's superiority over SOTA in dense settings.
 
-![intro_fig_arxiv](https://github.com/user-attachments/assets/ece19aeb-5be6-462e-b011-29d33ddc6951)
+![intro_fig_ICLRmerged1and2_BMVC2](https://github.com/user-attachments/assets/158aa5b3-ac1f-4644-8e20-622d12cbb1eb)
+
 
 ## 🔥 News
+* Excited to announce acceptance of PerSense at BMVC 2025 🚀
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized one-shot Segmentation in Dense Images, **PerSense-D**🚀
 * PerSense paper is released [arXiv Link](https://arxiv.org/abs/2405.13518)
@@ -19,7 +20,6 @@ We introduce **PerSense** 🚀 for **Personalized Instance Segmentation** in **D
 🎯 **One-shot Framework**  
 
 ![Updated_Main_Fig3](https://github.com/user-attachments/assets/68fa7f49-9c5a-47a5-9eb9-004dbff01137)
-
 
 
 
