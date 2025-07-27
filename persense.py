@@ -206,7 +206,7 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
     target_embedding = target_embedding.unsqueeze(0)
    
     print('======> Start Testing')
-    loop_over = len(os.listdir(test_images_path))
+    loop_over = len(os.listdir(test_images_path)) - 2
     for test_idx in tqdm(range(loop_over//2)):
 
         # Load test image
