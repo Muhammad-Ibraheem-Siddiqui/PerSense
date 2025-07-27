@@ -41,7 +41,7 @@ Clone the repo and create conda environment following the instructions given bel
     pip install -r requirements.txt
 
 ### Dataset
-Please download our **PerSense-D dataset** from [here](https://drive.google.com/file/d/1ku_tY3VflD-K9-xeSocgQjcd2C6oj29g/view?usp=sharing). Unzip the dataset and organize it as follows:
+Please download our **PerSense-D dataset** from [here](https://drive.google.com/file/d/1PEmP3h8ertDTcbttkEgv8zAzpJ_4r-CY/view?usp=sharing). Unzip the dataset and organize it as follows:
 
     data/
     |-- Images/
@@ -67,7 +67,7 @@ Also, download weights for DSALVANet pretrained on FSC-147 from [here](https://d
 #### PerSense
 To evaluate PerSense on DSALVANet, just run the following command: 
 
-    python persense.py (add argument '--visualize True' for visualizing the mask overlaid on original image)
+    python persense.py (add argument '--visualize True' for visualizing masks overlaid on original image)
 
 To evaluate PerSense on CounTR, just run the following command: 
 
@@ -95,7 +95,7 @@ To evaluate mIoU, just run the following command:
 
 ## 👀 How it Looks?
 
-![Qualitative results_arxiv](https://github.com/user-attachments/assets/371689b0-c9b8-4fc1-af3a-ba9ea6c81f1c)
+![Qualitative results_BMVC_withmedical](https://github.com/user-attachments/assets/f2c4d45f-1fc6-406c-9f42-1968a4c91901)
 
 
 
