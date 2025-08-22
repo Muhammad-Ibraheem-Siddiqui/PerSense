@@ -1,5 +1,10 @@
 ## **PerSense: Personalized Instance Segmentation in Dense Images** [BMVC 2025 🔥]
 
+### [[*Project Page*]](https://persense.vercel.app/)   [[*Paper*]](https://www.arxiv.org/abs/2405.13518)   [[*Dataset*]](https://persense.vercel.app/benchmarking) 
+
+![main](https://github.com/user-attachments/assets/e4f55ec2-d215-4ece-ae61-b3ac4d53a08d)
+
+
 ### Abstract
 The emergence of foundational models has significantly advanced segmentation approaches. However, challenges still remain in dense scenarios, where occlusions, scale variations, and clutter impede precise instance delineation. To address this, we propose **PerSense**, an end-to-end, training-free, and model-agnostic one-shot framework for **Per**sonalized instance **S**egmentation in d**ense** images. We start with developing a new baseline capable of automatically generating instance-level point prompts via proposing a novel Instance Detection Module (IDM) that leverages density maps (DMs), encapsulating spatial distribution of objects in an image. To reduce false positives, we design the Point Prompt Selection Module (PPSM), which refines the output of IDM based on an adaptive threshold and spatial gating. Both IDM and PPSM seamlessly integrate into our model-agnostic framework. Furthermore, we introduce a feedback mechanism that enables PerSense to improve the accuracy of DMs by automating the exemplar selection process for DM generation. Finally, to advance research in this relatively underexplored area, we introduce PerSense-D, an evaluation benchmark for instance segmentation in dense images. Our extensive experiments establish PerSense's superiority over SOTA in dense settings.
 
@@ -7,6 +12,7 @@ The emergence of foundational models has significantly advanced segmentation app
 
 
 ## 🔥 News
+* We introduce PerSense++, an enhanced version of PerSense. See details [arXiv Link](https://arxiv.org/abs/2508.14660) 🚀
 * Excited to announce acceptance of PerSense at BMVC 2025 🚀
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized one-shot Segmentation in Dense Images, **PerSense-D**🚀
@@ -114,6 +120,12 @@ Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/
     author={Siddiqui, Muhammad Ibraheem and Sheikh, Muhammad Umer and Abid, Hassan and Khan, Muhammad Haris},
     journal={arXiv preprint arXiv:2405.13518},
     year={2024}
+
+    @article{siddiqui2025persense++,
+    title={Towards PerSense++: Advancing Training-Free Personalized Instance Segmentation in Dense Images},
+    author={Siddiqui, Muhammad Ibraheem and Sheikh, Muhammad Umer and Abid, Hassan and Henry, Kevin and Khan, Muhammad Haris},
+    journal={arXiv preprint arXiv:2508.14660},
+    year={2025}
   }
 
 
