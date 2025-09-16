@@ -2,6 +2,9 @@
 
 ### [[*Project Page*]](https://persense.vercel.app/)   [[*Paper*]](https://www.arxiv.org/abs/2405.13518)   [[*Dataset*]](https://persense.vercel.app/benchmarking) 
 
+[![Code License: PolyForm Noncommercial](https://img.shields.io/badge/Code%20License-PolyForm%20Noncommercial%201.0.0-orange.svg)](LICENSE)
+[![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)  
+
 ![main](https://github.com/user-attachments/assets/e4f55ec2-d215-4ece-ae61-b3ac4d53a08d)
 
 
@@ -109,7 +112,7 @@ To evaluate mIoU, just run the following command:
 Our repo benefits from [PerSAM](https://github.com/ZrrSkywalker/Personalize-SAM/tree/main?tab=readme-ov-file), [Grounded-SAM](https://github.com/IDEA-Research/Grounded-Segment-Anything), [DSALVANet](https://github.com/kadvinj/DSALVANet?tab=readme-ov-file) and [ViPLLaVA](https://github.com/WisconsinAIVision/ViP-LLaVA/tree/main). Thanks for their great work.
 
 ## License
-[![Code License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm%20Noncommercial%201.0.0-orange.svg)](LICENSE)
+[![Code License: PolyForm Noncommercial](https://img.shields.io/badge/Code%20License-PolyForm%20Noncommercial%201.0.0-orange.svg)](LICENSE)
 [![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-red.svg)](https://github.com/tatsu-lab/stanford_alpaca/blob/main/DATA_LICENSE)  
 
 **Usage and License Notices**: The data, model and pretrained checkpoints are intended and licensed for research use only. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
