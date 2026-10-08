@@ -41,12 +41,12 @@ def get_arguments():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--data', type=str, default='./data')
-    parser.add_argument('--outdir', type=str, default='PerSense++')
+    parser.add_argument('--outdir', type=str, default='PerSense++123')
     parser.add_argument('--ckpt', type=str, default='./sam_vit_h_4b8939.pth')
     parser.add_argument('--sam_type', type=str, default='vit_h')
     parser.add_argument('--ref_idx', type=str, default='00')
-    parser.add_argument('--visualize', type=bool, default= True) # Change to True for visualization
-    parser.add_argument('--fsoc', type=str, default='DSALVANet') #use 'DSALVANet' for DMG1 and 'countr' for DMG2 and 
+    parser.add_argument('--visualize', type=bool, default= False) # Change to True for visualization
+    parser.add_argument('--fsoc', type=str, default='countr') #use 'DSALVANet' for DMG1 and 'countr' for DMG2 and 
 
     
     args = parser.parse_args()
@@ -250,9 +250,7 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
                         sim,
                         input_size=predictor.input_size,
                         original_size=predictor.original_size).squeeze()
-        
-        
-        print("======> Running PerSense" )
+
 
 
         SOURCE_IMAGE_PATH = test_image_path
@@ -276,22 +274,22 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
                 text_threshold=TEXT_TRESHOLD
             )
         class_conf = detections.confidence
+        if len(class_conf) == 0:
+            print(f"No grounding boxes for {test_idx}; saving an empty mask.")
+            cv2.imwrite(output_file, np.zeros(image_size, dtype=np.uint8))
+            continue
         index_conf = np.argmax(class_conf)
         bbox_coord = detections.xyxy[index_conf]
 
-        top_list = []
-        filt_sim, cntr_pt = filtered_similarity(sim, bbox_coord) 
-        topk_xy_NA, topk_label = point_selection(filt_sim, topk=1)
-        
-        top_list.append(cntr_pt)
-        topk_xy = top_list[0]
-        topk_xy = np.array(top_list)
+        # Initial exemplar: maximum query-support similarity inside the
+        # highest-confidence grounding box (paper, Eq. 2).
+        filt_sim, _ = filtered_similarity(sim, bbox_coord)
+        topk_xy, topk_label = point_selection(filt_sim, topk=1)
         sim_tgt = (sim - sim.mean()) / torch.std(sim)
         sim_tgt = F.interpolate(sim_tgt.unsqueeze(0).unsqueeze(0), size=(64, 64), mode="bilinear")
         attn_sim = sim_tgt.sigmoid_().unsqueeze(0).flatten(3)
 
         CLASSES = class2
-        print(CLASSES)
 
         with torch.no_grad():
             detections2 = grounding_dino_model.predict_with_classes(
@@ -373,10 +371,10 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
                     output = counter_model(query,supports)
                 vis_output, pt_priors, count = hybrid_IDM(src_img,ori_boxes,output, test_idx)
 
-            pt_priors_all = pt_priors
             pt_priors = PPSM(sim, pt_priors, count, detections2)
             if not pt_priors:
-                pt_priors = pt_priors_all
+                cv2.imwrite(output_file, np.zeros(image_size, dtype=np.uint8))
+                continue
 
         batch_size = 16
         pt_np = [
@@ -461,11 +459,18 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
             with open('./DSALVANet/test_data/bbox.txt', 'r') as file:
                 lines = file.readlines()
 
-            if len(lines) > 3:
-                with open('./DSALVANet/test_data/bbox.txt', 'w') as file:
-                    file.writelines(lines[1:])
-
-                diversity_aware_exemplar_selection(image_size, test_idx, bbox, test_image_path, resnet50, preprocess_resnet50, class1)
+            with open('./DSALVANet/test_data/bbox.txt', 'w') as file:
+                file.writelines(lines[1:])
+            diversity_aware_exemplar_selection(
+                image_size, test_idx, bbox, test_image_path,
+                resnet50, preprocess_resnet50, class1
+            )
+            with open('./DSALVANet/test_data/bbox.txt', 'r') as file:
+                surviving_exemplars = file.readlines()
+            if not surviving_exemplars:
+                print(f"No feedback exemplars pass SAM filtering for {test_idx}; saving an empty mask.")
+                cv2.imwrite(output_file, np.zeros(image_size, dtype=np.uint8))
+                continue
 
         
             if __name__ == '__main__':
@@ -492,11 +497,10 @@ def persense(args, obj_name, images_path, masks_path, output_path, llava_tokeniz
                     output = counter_model(query,supports)
                     vis_output, pt_priors, count = hybrid_IDM(src_img,ori_boxes,output, test_idx)
 
-                pt_priors_all = pt_priors
-
                 pt_priors = PPSM(sim, pt_priors, count, detections2)
                 if not pt_priors:
-                    pt_priors = pt_priors_all
+                    cv2.imwrite(output_file, np.zeros(image_size, dtype=np.uint8))
+                    continue
            
             
             pt_np = [pt.cpu().detach().numpy().astype(np.int64) for pt in pt_priors]
@@ -641,7 +645,8 @@ def IMRM(mask_list, prompt_list, dino_detections, n_clusters=2):
         x0, y0, x1, y1 = box.tolist()
         dino_boxes.append([int(y0), int(x0), int(y1), int(x1)])
 
-    independent_boxes = []
+    # A sole detection must also be eligible for outlier recovery.
+    independent_boxes = list(dino_boxes) if len(dino_boxes) <= 1 else []
     if len(dino_boxes) > 1:
         for i, box_i in enumerate(dino_boxes):
             contains_other = False
@@ -673,16 +678,33 @@ def IMRM(mask_list, prompt_list, dino_detections, n_clusters=2):
 
 
 def filtered_similarity(sim_matrix, bbox):
-    cimg = np.zeros_like(sim_matrix.cpu(), np.uint8)
-    bbox = np.int32(bbox)
-    cimg_box = cv2.rectangle(cimg,(bbox[0],bbox[1]), (bbox[2], bbox[3]) , 255 , -1)
-    center_pt = ((bbox[0]+ bbox[2])//2, (bbox[1]+bbox[3])//2)
-    center_pt = np.int32(center_pt)
-    radius = 2
-    cv2.circle(cimg_box, center_pt, radius, (255, 255, 0), 2)
-    sim_mat_new = np.multiply(sim_matrix.cpu(), cimg_box)
+    """Restrict similarity to pixel coordinates inside an xyxy box.
 
-    return sim_mat_new, center_pt
+    Outside pixels are -inf, so they cannot beat negative in-box scores.
+    The second return value is the in-box maximum point in (x, y) order.
+    """
+    sim_matrix = torch.as_tensor(sim_matrix).detach()
+    if sim_matrix.ndim != 2:
+        raise ValueError("Similarity must be a two-dimensional image-space map.")
+    height, width = sim_matrix.shape
+    box = np.asarray(bbox, dtype=float).reshape(4)
+    if not np.isfinite(box).all():
+        raise ValueError("Grounding box coordinates must be finite.")
+    x0 = max(0, int(np.ceil(box[0])))
+    y0 = max(0, int(np.ceil(box[1])))
+    x1 = min(width - 1, int(np.floor(box[2])))
+    y1 = min(height - 1, int(np.floor(box[3])))
+    if x0 > x1 or y0 > y1:
+        raise ValueError("Grounding box contains no image pixels.")
+    restricted = torch.full_like(sim_matrix, float('-inf'))
+    region = sim_matrix[y0:y1 + 1, x0:x1 + 1]
+    restricted[y0:y1 + 1, x0:x1 + 1] = torch.where(
+        torch.isfinite(region), region, torch.full_like(region, float('-inf'))
+    )
+    if not torch.isfinite(restricted).any().item():
+        raise ValueError("Grounding box contains no finite similarity values.")
+    index = int(restricted.reshape(-1).argmax().item())
+    return restricted, np.array([index % width, index // width], dtype=np.int64)
 
 def point_selection(mask_sim, topk=1):
     w, h = mask_sim.shape
@@ -695,14 +717,59 @@ def point_selection(mask_sim, topk=1):
     
     return topk_xy, topk_label
 
-def PPSM(similarity, point_priors, cnt, dino_boxes):
+def PPSM(similarity, point_priors, cnt, dino_boxes, normalization=np.sqrt(2.0)):
+    """Apply the paper's adaptive similarity threshold and grounding gate.
+
+    For estimated count C > 1, retain IDM candidates with similarity
+    S >= S_max / (C / K), where K = sqrt(2). For 0 < C <= 1,
+    select the global maximum-similarity pixel, subject to box gating.
+    The latter also handles positive fractional DMG count estimates.
+    Nonpositive counts or an empty selection return no prompts; rejected
+    candidates are never restored.
+    """
+    similarity = torch.as_tensor(similarity).detach()
+    if similarity.ndim != 2:
+        raise ValueError("Similarity must be a two-dimensional image-space map.")
+    count = float(cnt)
+    if not np.isfinite(count) or count <= 0:
+        return []
+    if not np.isfinite(normalization) or normalization <= 0:
+        raise ValueError("PPSM normalization must be positive and finite.")
+    boxes = np.asarray(dino_boxes.xyxy, dtype=float).reshape(-1, 4)
+    boxes = boxes[np.isfinite(boxes).all(axis=1)]
+    if len(boxes) == 0:
+        return []
+    finite = torch.isfinite(similarity)
+    if not finite.any().item():
+        return []
+    safe_similarity = torch.where(
+        finite, similarity, torch.full_like(similarity, float('-inf'))
+    )
+    maximum = float(safe_similarity.max().item())
+    height, width = similarity.shape
+
+    def inside_grounding_box(x, y):
+        return bool(np.any(
+            (boxes[:, 0] <= x) & (x <= boxes[:, 2]) &
+            (boxes[:, 1] <= y) & (y <= boxes[:, 3])
+        ))
+
+    if count <= 1:
+        index = int(safe_similarity.reshape(-1).argmax().item())
+        x, y = index % width, index // width
+        if inside_grounding_box(x, y):
+            return [torch.tensor([x, y], dtype=torch.long, device=similarity.device)]
+        return []
+
+    threshold = maximum / (count / normalization)
     final_pts = []
-    for pnt in point_priors:
-        x, y = int(pnt[0]), int(pnt[1])
-        for (x0, y0, x1, y1) in dino_boxes.xyxy:
-            if x0 <= x <= x1 and y0 <= y <= y1:
-                final_pts.append(pnt)
-                break
+    for point in point_priors:
+        x, y = int(point[0]), int(point[1])
+        if not (0 <= x < width and 0 <= y < height):
+            continue
+        score = float(similarity[y, x].item())
+        if np.isfinite(score) and score >= threshold and inside_grounding_box(x, y):
+            final_pts.append(point)
     return final_pts
 
 
@@ -790,20 +857,16 @@ def extract_visual_features(
     return feats.cpu().numpy()
 
 
-def select_highest_scorers(regions):
+def select_highest_scorers(regions, threshold=0.8):
+    """Keep SAM scores >= threshold without restoring rejected candidates."""
     filtered_regions = {}
-    total_boxes = 0  
     
     for region, boxes in regions.items():
-        high_scorers = [box for box in boxes if box['score'] > 0.8]
-        total_boxes += len(high_scorers) 
+        high_scorers = [box for box in boxes if box['score'] >= threshold]
         
         if high_scorers:
             filtered_regions[region] = high_scorers
 
-    if total_boxes < 3:
-        filtered_regions = regions
-    
     return filtered_regions
 
 
@@ -873,6 +936,10 @@ def cluster_by_visual_similarity(bounding_boxes, image_path, resnet50, preproces
             center = cluster_centers[label].reshape(1, -1)
             cluster_similarities = cosine_similarity(cluster_features, center).flatten()  # Cosine similarity output
             cluster_similarities = (cluster_similarities + 1) / 2  # Normalize to [0, 1]
+            # Store the similarity on its candidate so later SAM filtering
+            # cannot misalign parallel box/similarity arrays.
+            for box, centroid_similarity in zip(cluster_boxes, cluster_similarities):
+                box['centroid_similarity'] = float(centroid_similarity)
             all_similarities.extend(cluster_similarities)
             regions[label] = cluster_boxes
             similarities[label] = cluster_similarities
@@ -881,6 +948,8 @@ def cluster_by_visual_similarity(bounding_boxes, image_path, resnet50, preproces
         seg_fault = True
         regions = {0: filtered_boxes} 
         similarities[0] = [1 for _ in filtered_boxes] 
+        for box in filtered_boxes:
+            box['centroid_similarity'] = 1.0
 
     return regions,similarities, seg_fault, mean_area, mean_aspect_ratio
 
@@ -961,10 +1030,11 @@ def select_exemplars_by_size(clusters, ref_boxes, similarities, filename, image_
                 sim_with_ref = (sim_with_ref + 1) / 2
 
             # Weighted scoring
-            log_dist = np.log(closeness_to_mean)
+            # Finite at Delta A = 0; manuscript score must use log(1 + Delta A).
+            log_dist = np.log1p(closeness_to_mean)
             weighted_score = (
                 -0.25 * log_dist +  
-                0.25 * similarities[region][idx] +  
+                0.25 * box['centroid_similarity'] +
                 0.25 * sim_with_ref + 
                 -0.25 * aspect_ratio_deviation  
             )
@@ -1021,10 +1091,23 @@ def remove_overlapping_boxes(final_selection, global_region):
 
 def diversity_aware_exemplar_selection(image_shape, filename, bboxes, test_image_path, resnet50, preprocess_resnet50, class1):
     selected_boxes = parse_bounding_boxes('./DSALVANet/test_data/bbox.txt')
-    
-    regions, distances, seg_fault, mean_area, mean_aspect_ratio = cluster_by_visual_similarity(selected_boxes, test_image_path, resnet50, preprocess_resnet50, bboxes, filename)
-    filtered_regions = select_highest_scorers(regions)
-    exemplars = select_exemplars_by_size(filtered_regions, bboxes, distances, filename, test_image_path, resnet50, preprocess_resnet50, class1, mean_area, mean_aspect_ratio)
+
+    if len(selected_boxes) < 3:
+        # Three exemplars are a target budget, not a minimum requirement.
+        # Keep only available candidates passing the SAM threshold.
+        filtered_regions = select_highest_scorers({0: selected_boxes})
+        exemplars = [box for boxes in filtered_regions.values() for box in boxes]
+        seg_fault = True  # Existing return flag: diversity selection bypassed.
+    else:
+        regions, distances, seg_fault, mean_area, mean_aspect_ratio = cluster_by_visual_similarity(selected_boxes, test_image_path, resnet50, preprocess_resnet50, bboxes, filename)
+        filtered_regions = select_highest_scorers(regions)
+        available = [box for boxes in filtered_regions.values() for box in boxes]
+        if len(available) < 3:
+            # Bypass scoring/binning without restoring rejected candidates.
+            exemplars = available
+            seg_fault = True
+        else:
+            exemplars = select_exemplars_by_size(filtered_regions, bboxes, distances, filename, test_image_path, resnet50, preprocess_resnet50, class1, mean_area, mean_aspect_ratio)
     with open('./DSALVANet/test_data/bbox.txt', 'w') as file:
         for ex in exemplars:
             line = f"{int(ex['coords'][0])} {int(ex['coords'][1])} {int(ex['coords'][2])} {int(ex['coords'][3])} {ex['score']}\n"
