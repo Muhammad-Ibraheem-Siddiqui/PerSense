@@ -16,7 +16,7 @@ The emergence of foundational models has significantly advanced segmentation app
 
 ## 🔥 News
 * PerSense++ code is released 🚀
-* We introduce PerSense++, an enhanced version of PerSense. See details [arXiv Link](https://arxiv.org/abs/2508.14660) 🚀
+* We introduce PerSense++, an enhanced variant of PerSense. See details [arXiv Link](https://arxiv.org/abs/2508.14660) 🚀
 * Excited to announce acceptance of PerSense at BMVC 2025 🚀
 * We release the code for **PerSense** 🚀
 * We release a new dataset for Personalized one-shot Segmentation in Dense Images, **PerSense-D**🚀
