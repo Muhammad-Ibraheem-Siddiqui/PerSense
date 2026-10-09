@@ -46,7 +46,7 @@ def get_arguments():
     parser.add_argument('--sam_type', type=str, default='vit_h')
     parser.add_argument('--ref_idx', type=str, default='00')
     parser.add_argument('--visualize', type=bool, default= False) # Change to True for visualization
-    parser.add_argument('--fsoc', type=str, default='countr') #use 'DSALVANet' for DMG1 and 'countr' for DMG2 and 
+    parser.add_argument('--fsoc', type=str, default='countr') 
 
     
     args = parser.parse_args()
